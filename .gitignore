@@ -1,0 +1,14 @@
+
+Builder/.idea/
+
+Builder/Library/
+
+Builder/Logs/
+
+Builder/obj/
+
+Builder/UserSettings/
+
+Builder/Assembly-CSharp.csproj
+
+Builder/Builder.sln
