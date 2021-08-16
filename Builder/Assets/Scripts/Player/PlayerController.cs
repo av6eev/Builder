@@ -26,12 +26,10 @@ namespace Player
             _model.OnChangePosition -= ChangePosition;
         }
         
-        private void ChangePosition(Vector3 newCoords)
+        private void ChangePosition(Vector3 currentPosition)
         {
-            var position = _component.transform.position + newCoords;
-            
-            _model.Position = position;
-            _component.ChangePosition(position);
+            _model.Position = currentPosition;
+            _component.ChangePosition(currentPosition);
         }
     }
 }

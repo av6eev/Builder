@@ -2,7 +2,7 @@
 {
     public interface IController
     {
-        void Activate();
         void Deactivate();
+        void Activate();
     }
 }
