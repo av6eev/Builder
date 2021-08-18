@@ -11,7 +11,9 @@ namespace Utilities
         public void Update(float deltaTime)
         {
             foreach (var system in _systems.Values)
+            {
                 system.Update(Time.deltaTime);
+            }
         }
 
         public void Add(SystemTypes type, ISystem system)

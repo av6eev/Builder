@@ -15,21 +15,20 @@ namespace Player
             _component = component;
             _context = context;
         }
-        
-        public void Activate()
-        {
-            _model.OnChangePosition += ChangePosition;
-        }
 
         public void Deactivate()
         {
             _model.OnChangePosition -= ChangePosition;
         }
-        
+
+        public void Activate()
+        {
+            _model.OnChangePosition += ChangePosition;
+        }
+
         private void ChangePosition(Vector3 currentPosition)
         {
             _model.Position = currentPosition;
-            _component.ChangePosition(currentPosition);
         }
     }
 }

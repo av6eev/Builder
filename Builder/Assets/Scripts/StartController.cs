@@ -20,6 +20,7 @@ public class StartController : MonoBehaviour
         _stepCollection.Execute(_context, _controllerCollection, _context.GlobalContainer);
 
         _systemCollection.Add(SystemTypes.PlayerMoveSystem, new PlayerMoveSystem(_context));
+        _systemCollection.Add(SystemTypes.PlayerRotationSystem, new PlayerRotationSystem(_context));
         
         _controllerCollection.Activate();    
     }

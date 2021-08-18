@@ -18,13 +18,13 @@ namespace InputManager
             _context = context;
             _model = model;
             _asset = asset;
-            
+
             _actionMovement = _asset.FindAction(InputFields.Movement);
             _actionJump = _asset.FindAction(InputFields.Jump);
-            
+
             _asset.Enable();
         }
-        
+
         public void Deactivate()
         {
             _actionMovement.started -= OnPlayerMovement;
@@ -32,35 +32,42 @@ namespace InputManager
             _actionMovement.canceled -= OnPlayerMovement;
 
             _actionJump.started -= OnPlayerJumpStart;
-            // _actionJump.performed -= OnPlayerJumpStart;
-            // _actionJump.canceled -= OnPlayerJumpStart;
+            _actionJump.performed -= OnPlayerJumpStart;
         }
-        
+
         public void Activate()
         {
             _actionMovement.started += OnPlayerMovement;
             _actionMovement.performed += OnPlayerMovement;
             _actionMovement.canceled += OnPlayerMovement;
-            
-            // _actionJump.started += OnPlayerJumpStart;
+
+            _actionJump.started += OnPlayerJumpStart;
             _actionJump.performed += OnPlayerJumpStart;
-            // _actionJump.canceled += OnPlayerJumpStart;
         }
 
         private void OnPlayerJumpStart(InputAction.CallbackContext context)
         {
-            Debug.Log(_model.IsJump = context.ReadValueAsButton());
+            if (context.ReadValueAsButton())
+                _context.GlobalContainer.PlayerComponent.Animator.SetTrigger("IsJump");
         }
 
         private void OnPlayerMovement(InputAction.CallbackContext context)
         {
-            var currentMovementInput = context.ReadValue<Vector2>();
-            var currentMovement = new Vector3(currentMovementInput.x, 0 , currentMovementInput.y);
+            var key = context.control.name;
+            var positionInput = context.ReadValue<Vector2>();
+            var position = new Vector3(positionInput.x, 0, positionInput.y);
 
-            _model.IsMove = currentMovementInput.x != 0 || currentMovementInput.y != 0;
-
-            if (_model.IsMove)
-                _context.PlayerModel.UpdatePosition(currentMovement);
+            if (positionInput.y < 0)
+            {
+                _context.GlobalContainer.PlayerComponent.Animator.SetBool("IsRunBackwards", true);
+            }
+            else
+            {
+                _context.GlobalContainer.PlayerComponent.Animator.SetBool("IsRunBackwards", false);
+            }
+            
+            _model.IsMove = positionInput.x != 0 || positionInput.y != 0;
+            _context.PlayerModel.UpdatePosition(position);
         }
     }
 }

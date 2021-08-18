@@ -2,6 +2,7 @@
 {
     public enum SystemTypes
     {
-        PlayerMoveSystem
+        PlayerMoveSystem,
+        PlayerRotationSystem
     }
 }
