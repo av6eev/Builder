@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using Utilities;
 
-namespace Player
+namespace Player.Systems
 {
     public class PlayerRotationSystem : ISystem
     {
         private readonly GameContext _context;
-        private readonly float _rotationSpeed = 5f;
+        private const float _rotationSpeed = 6f;
 
         public PlayerRotationSystem(GameContext context)
         {
@@ -17,11 +17,6 @@ namespace Player
         {
             var playerModel = _context.PlayerModel;
             var playerComponent = _context.GlobalContainer.PlayerComponent;
-            
-            if (playerModel.Position.x > 0)
-                playerComponent.transform.rotation = Quaternion.Slerp(playerComponent.transform.rotation, Quaternion.LookRotation(Vector3.right), _rotationSpeed * deltaTime);
-            else if (playerModel.Position.x < 0)
-                playerComponent.transform.rotation = Quaternion.Slerp(playerComponent.transform.rotation, Quaternion.LookRotation(Vector3.left), _rotationSpeed * deltaTime);
             
             if (playerModel.Position.z > 0)
                 playerComponent.transform.rotation = Quaternion.Slerp(playerComponent.transform.rotation, Quaternion.LookRotation(Vector3.forward), _rotationSpeed * deltaTime);

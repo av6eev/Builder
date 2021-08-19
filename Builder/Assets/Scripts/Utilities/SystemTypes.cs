@@ -3,6 +3,8 @@
     public enum SystemTypes
     {
         PlayerMoveSystem,
-        PlayerRotationSystem
+        PlayerRotationSystem,
+        CameraFollowSystem,
+        PlayerPhysicsSystem
     }
 }

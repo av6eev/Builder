@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CameraManager;
 using InputManager;
 using Player;
 
@@ -10,8 +11,9 @@ namespace Utilities
 
         public StepCollection()
         {
-            Add(new PlayerStep());
             Add(new InputStep());
+            Add(new PlayerStep());
+            Add(new CameraStep());
         }
 
         public void Execute(GameContext context, ControllerCollection controllerCollection, GlobalContainer container)

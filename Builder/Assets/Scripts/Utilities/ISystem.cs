@@ -1,4 +1,4 @@
-﻿namespace Player
+﻿namespace Utilities
 {
     public interface ISystem
     {

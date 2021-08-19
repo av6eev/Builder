@@ -1,7 +1,7 @@
-using InputManager;
+using CameraManager;
 using Player;
+using Player.Systems;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Utilities;
 
 public class StartController : MonoBehaviour
@@ -21,6 +21,8 @@ public class StartController : MonoBehaviour
 
         _systemCollection.Add(SystemTypes.PlayerMoveSystem, new PlayerMoveSystem(_context));
         _systemCollection.Add(SystemTypes.PlayerRotationSystem, new PlayerRotationSystem(_context));
+        _systemCollection.Add(SystemTypes.PlayerPhysicsSystem, new PlayerPhysicsSystem(_context));
+        _systemCollection.Add(SystemTypes.CameraFollowSystem, new CameraFollowSystem(_context));
         
         _controllerCollection.Activate();    
     }

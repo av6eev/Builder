@@ -12,6 +12,7 @@ namespace InputManager
 
         private readonly InputAction _actionMovement;
         private readonly InputAction _actionJump;
+        private readonly InputAction _actionShift;
 
         public InputController(GameContext context, InputModel model, InputActionAsset asset)
         {
@@ -21,6 +22,7 @@ namespace InputManager
 
             _actionMovement = _asset.FindAction(InputFields.Movement);
             _actionJump = _asset.FindAction(InputFields.Jump);
+            _actionShift = _asset.FindAction(InputFields.Shift);
 
             _asset.Enable();
         }
@@ -31,8 +33,10 @@ namespace InputManager
             _actionMovement.performed -= OnPlayerMovement;
             _actionMovement.canceled -= OnPlayerMovement;
 
-            _actionJump.started -= OnPlayerJumpStart;
-            _actionJump.performed -= OnPlayerJumpStart;
+            _actionJump.started -= OnPlayerJump;
+
+            _actionShift.started -= OnPlayerShift;
+            _actionShift.canceled -= OnPlayerShift;
         }
 
         public void Activate()
@@ -41,11 +45,27 @@ namespace InputManager
             _actionMovement.performed += OnPlayerMovement;
             _actionMovement.canceled += OnPlayerMovement;
 
-            _actionJump.started += OnPlayerJumpStart;
-            _actionJump.performed += OnPlayerJumpStart;
+            _actionJump.started += OnPlayerJump;
+            
+            _actionShift.started += OnPlayerShift;
+            _actionShift.canceled += OnPlayerShift;
         }
 
-        private void OnPlayerJumpStart(InputAction.CallbackContext context)
+        private void OnPlayerShift(InputAction.CallbackContext context)
+        {
+            if (context.ReadValueAsButton())
+            {
+                _context.GlobalContainer.PlayerComponent.Animator.SetBool("IsShiftEnable", true);
+                _model.IsRun = true;
+            }
+            else
+            {
+                _context.GlobalContainer.PlayerComponent.Animator.SetBool("IsShiftEnable", false);
+                _model.IsRun = false;
+            }
+        }
+
+        private void OnPlayerJump(InputAction.CallbackContext context)
         {
             if (context.ReadValueAsButton())
                 _context.GlobalContainer.PlayerComponent.Animator.SetTrigger("IsJump");
@@ -53,7 +73,6 @@ namespace InputManager
 
         private void OnPlayerMovement(InputAction.CallbackContext context)
         {
-            var key = context.control.name;
             var positionInput = context.ReadValue<Vector2>();
             var position = new Vector3(positionInput.x, 0, positionInput.y);
 

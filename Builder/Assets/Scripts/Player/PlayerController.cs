@@ -19,16 +19,23 @@ namespace Player
         public void Deactivate()
         {
             _model.OnChangePosition -= ChangePosition;
+            _model.OnLookAt -= LookAt;
         }
 
         public void Activate()
         {
             _model.OnChangePosition += ChangePosition;
+            _model.OnLookAt += LookAt;
         }
 
         private void ChangePosition(Vector3 currentPosition)
         {
             _model.Position = currentPosition;
+        }
+        
+        private void LookAt(Vector3 obj)
+        {
+            _component.transform.LookAt(obj);
         }
     }
 }
