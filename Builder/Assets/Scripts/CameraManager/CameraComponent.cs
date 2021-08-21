@@ -4,7 +4,7 @@ namespace CameraManager
 {
     public class CameraComponent : MonoBehaviour
     {
-        public Camera Camera;
-        public Transform Target;
+        [SerializeField] public bool LockCursor = true;
+        public Transform Camera;
     }
 }

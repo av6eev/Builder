@@ -2,7 +2,7 @@
 
 namespace CameraManager
 {
-    public class CameraModel
+    public class BaseCamera
     {
         public Vector3 OffsetPosition;
         public Space OffsetPositionSpace;

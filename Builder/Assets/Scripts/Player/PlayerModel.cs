@@ -10,6 +10,9 @@ namespace Player
         
         public Vector3 Position;
         
+        public float MousePositionX;
+        public float MousePositionY;
+        
         public readonly float Speed = 2f;
         public float CurrentVelocity = 0f;
         public readonly float MaxWalkVelocity = 4f;

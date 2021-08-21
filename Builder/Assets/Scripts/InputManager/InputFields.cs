@@ -7,6 +7,7 @@
         public const string Movement = "Movement";
         public const string Jump = "Jump";
         public const string Shift = "Shift";
+        public const string MouseDelta = "MouseDelta";
 
         #endregion
     }

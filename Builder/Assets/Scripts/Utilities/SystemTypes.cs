@@ -2,9 +2,15 @@
 {
     public enum SystemTypes
     {
+        #region Player
         PlayerMoveSystem,
-        PlayerRotationSystem,
+        PlayerPhysicsSystem,
+        #endregion
+
+        #region Camera
         CameraFollowSystem,
-        PlayerPhysicsSystem
+        CameraMovementSystem
+        #endregion
+        
     }
 }

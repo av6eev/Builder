@@ -14,6 +14,6 @@ namespace Utilities
 
         public PlayerModel PlayerModel { get; set; }
         public InputModel InputModel { get; set; }
-        public CameraModel CameraModel { get; set; }
+        // public CameraModel CameraModel { get; set; }
     }
 }
