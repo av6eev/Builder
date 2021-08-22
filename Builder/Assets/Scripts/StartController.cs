@@ -19,9 +19,8 @@ public class StartController : MonoBehaviour
 
         _stepCollection.Execute(_context, _controllerCollection, _context.GlobalContainer);
 
-        _systemCollection.Add(SystemTypes.PlayerMoveSystem, new PlayerMoveSystem(_context));
+        _systemCollection.Add(SystemTypes.PlayerMovementSystem, new PlayerMovementSystem(_context));
         _systemCollection.Add(SystemTypes.PlayerPhysicsSystem, new PlayerPhysicsSystem(_context));
-        _systemCollection.Add(SystemTypes.CameraFollowSystem, new CameraFollowSystem(_context));
         _systemCollection.Add(SystemTypes.CameraMovementSystem, new CameraMovementSystem(_context));
         
         _controllerCollection.Activate();    

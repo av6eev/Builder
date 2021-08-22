@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace CameraManager
 {
@@ -6,5 +7,7 @@ namespace CameraManager
     {
         [SerializeField] public bool LockCursor = true;
         public Transform Camera;
+        [NonSerialized] public Vector3 Forward;
+        [NonSerialized] public Vector3 Right;
     }
 }

@@ -4,5 +4,6 @@
     {
         public bool IsMove;
         public bool IsRun;
+        public bool IsJump;
     }
 }

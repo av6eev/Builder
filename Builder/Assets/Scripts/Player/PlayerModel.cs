@@ -9,7 +9,6 @@ namespace Player
         public event Action<Vector3> OnLookAt;
         
         public Vector3 Position;
-        
         public float MousePositionX;
         public float MousePositionY;
         
@@ -17,7 +16,7 @@ namespace Player
         public float CurrentVelocity = 0f;
         public readonly float MaxWalkVelocity = 4f;
         public readonly float MaxRunVelocity = 8f;
-        
+
         public void UpdatePosition(Vector3 newPosition)
         {
             OnChangePosition?.Invoke(newPosition);

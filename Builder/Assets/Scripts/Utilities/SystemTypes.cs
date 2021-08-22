@@ -3,7 +3,7 @@
     public enum SystemTypes
     {
         #region Player
-        PlayerMoveSystem,
+        PlayerMovementSystem,
         PlayerPhysicsSystem,
         #endregion
 

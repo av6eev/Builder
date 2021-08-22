@@ -36,7 +36,7 @@ namespace InputManager
             _movement.canceled -= OnPlayerMovement;
 
             _jump.started -= OnPlayerJump;
-
+            
             _shift.started -= OnPlayerShift;
             _shift.canceled -= OnPlayerShift;
 
@@ -65,6 +65,7 @@ namespace InputManager
             
             _context.PlayerModel.MousePositionX += positionInput.x * sensitivityX;
             _context.PlayerModel.MousePositionY -= positionInput.y * sensitivityY;
+            
         }
 
         private void OnPlayerShift(InputAction.CallbackContext context)
@@ -84,7 +85,14 @@ namespace InputManager
         private void OnPlayerJump(InputAction.CallbackContext context)
         {
             if (context.ReadValueAsButton())
+            {
                 _context.GlobalContainer.PlayerComponent.Animator.SetTrigger("IsJump");
+                _model.IsJump = true;
+            }
+            else
+            {
+                _model.IsJump = false;
+            }
         }
 
         private void OnPlayerMovement(InputAction.CallbackContext context)
