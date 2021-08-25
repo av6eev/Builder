@@ -31,7 +31,7 @@
                 },
                 {
                     "name": "MouseDelta",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "bb0ad338-c47b-4976-8cb1-2b7daf62d1ca",
                     "expectedControlType": "Vector2",
                     "processors": "",

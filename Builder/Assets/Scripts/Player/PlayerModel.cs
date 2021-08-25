@@ -12,10 +12,7 @@ namespace Player
         public float MousePositionX;
         public float MousePositionY;
         
-        public readonly float Speed = 2f;
-        public float CurrentVelocity = 0f;
-        public readonly float MaxWalkVelocity = 4f;
-        public readonly float MaxRunVelocity = 8f;
+        public bool IsGrounded;
 
         public void UpdatePosition(Vector3 newPosition)
         {

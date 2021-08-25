@@ -2,6 +2,6 @@
 {
     public interface IStep
     {
-        void Execute(GameContext context, ControllerCollection controllerCollection, GlobalContainer container);
+        void Execute(GameContext context, ControllerEngine controllerEngine, GlobalContainer container);
     }
 }

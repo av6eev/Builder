@@ -2,7 +2,7 @@
 
 namespace Utilities
 {
-    public class ControllerCollection : IController
+    public class ControllerEngine : IController
     {
         private readonly List<IController> _controllers = new List<IController>();
 

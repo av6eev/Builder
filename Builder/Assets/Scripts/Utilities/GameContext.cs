@@ -8,9 +8,11 @@ namespace Utilities
     public class GameContext
     {
         public GlobalContainer GlobalContainer { get; set; }
+        public PlayerData PlayerData { get; set; }
         
-        public SystemCollection SystemCollection { get; set; }
-        public ControllerCollection ControllerCollection { get; set; }
+        public BaseSystemEngine BaseSystemEngine { get; set; }
+        public FixedSystemEngine FixedSystemEngine { get; set; }
+        public ControllerEngine ControllerEngine { get; set; }
 
         public PlayerModel PlayerModel { get; set; }
         public InputModel InputModel { get; set; }

@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using Player;
 using UnityEngine;
 
 namespace Utilities
 {
-    public class SystemCollection : ISystem
+    public class FixedSystemEngine : ISystem
     {
         private readonly Dictionary<SystemTypes, ISystem> _systems = new Dictionary<SystemTypes, ISystem>();
 
@@ -12,7 +11,7 @@ namespace Utilities
         {
             foreach (var system in _systems.Values)
             {
-                system.Update(Time.deltaTime);
+                system.Update(deltaTime);
             }
         }
 
@@ -20,7 +19,7 @@ namespace Utilities
         {
             _systems.Add(type, system);
         }
-
+        
         public void Remove(SystemTypes type)
         {
             _systems.Remove(type);
@@ -29,11 +28,6 @@ namespace Utilities
         public void Clear()
         {
             _systems.Clear();
-        }
-
-        public ISystem Get(SystemTypes type)
-        {
-            return _systems[type];
         }
     }
 }

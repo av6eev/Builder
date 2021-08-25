@@ -1,4 +1,6 @@
+using System;
 using CameraManager;
+using CameraManager.Systems;
 using Player;
 using Player.Systems;
 using UnityEngine;
@@ -7,27 +9,36 @@ using Utilities;
 public class StartController : MonoBehaviour
 {
     [SerializeField] private GlobalContainer _container;
+    [SerializeField] private PlayerData _playerData;
     private readonly GameContext _context = new GameContext();
     
-    private readonly ControllerCollection _controllerCollection = new ControllerCollection();
-    private readonly SystemCollection _systemCollection = new SystemCollection();
-    private readonly StepCollection _stepCollection = new StepCollection();
+    private readonly ControllerEngine _controllerEngine = new ControllerEngine();
+    private readonly BaseSystemEngine _baseSystemEngine = new BaseSystemEngine();
+    private readonly FixedSystemEngine _fixedSystemEngine = new FixedSystemEngine();
+    private readonly StepEngine _stepEngine = new StepEngine();
 
-    void Start()
+    private void Start()
     {
         _context.GlobalContainer = _container;
+        _context.PlayerData = _playerData;
 
-        _stepCollection.Execute(_context, _controllerCollection, _context.GlobalContainer);
+        _stepEngine.Execute(_context, _controllerEngine, _context.GlobalContainer);
 
-        _systemCollection.Add(SystemTypes.PlayerMovementSystem, new PlayerMovementSystem(_context));
-        _systemCollection.Add(SystemTypes.PlayerPhysicsSystem, new PlayerPhysicsSystem(_context));
-        _systemCollection.Add(SystemTypes.CameraMovementSystem, new CameraMovementSystem(_context));
+        _baseSystemEngine.Add(SystemTypes.PlayerMovementSystem, new PlayerMovementSystem(_context));
         
-        _controllerCollection.Activate();    
+        _fixedSystemEngine.Add(SystemTypes.CameraMovementSystem, new CameraMovementSystem(_context));
+        _fixedSystemEngine.Add(SystemTypes.PlayerPhysicsSystem, new PlayerPhysicsSystem(_context));
+
+        _controllerEngine.Activate();    
     }
 
-    void Update()
+    private void Update()
     {
-        _systemCollection.Update(Time.deltaTime);
+        _baseSystemEngine.Update(Time.deltaTime);
+    }
+
+    private void FixedUpdate()
+    {
+        _fixedSystemEngine.Update(Time.deltaTime);
     }
 }

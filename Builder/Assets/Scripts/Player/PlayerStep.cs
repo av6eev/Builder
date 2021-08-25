@@ -4,13 +4,13 @@ namespace Player
 {
     public class PlayerStep : IStep
     {
-        public void Execute(GameContext context, ControllerCollection controllerCollection, GlobalContainer container)
+        public void Execute(GameContext context, ControllerEngine controllerEngine, GlobalContainer container)
         {
             var model = new PlayerModel();
             context.PlayerModel = model;
             
             var controller = new PlayerController(model, container.PlayerComponent, context);
-            controllerCollection.Add(controller);
+            controllerEngine.Add(controller);
         }
     }
 }

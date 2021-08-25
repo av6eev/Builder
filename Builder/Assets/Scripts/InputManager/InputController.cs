@@ -36,11 +36,14 @@ namespace InputManager
             _movement.canceled -= OnPlayerMovement;
 
             _jump.started -= OnPlayerJump;
+            _jump.canceled -= OnPlayerJump;
             
             _shift.started -= OnPlayerShift;
             _shift.canceled -= OnPlayerShift;
 
+            _mouseDelta.started -= OnMouseMove;
             _mouseDelta.performed -= OnMouseMove;
+            _mouseDelta.canceled -= OnMouseMove;
         }
 
         public void Activate()
@@ -50,22 +53,24 @@ namespace InputManager
             _movement.canceled += OnPlayerMovement;
 
             _jump.started += OnPlayerJump;
+            _jump.canceled += OnPlayerJump;
 
             _shift.started += OnPlayerShift;
             _shift.canceled += OnPlayerShift;
 
+            _mouseDelta.started += OnMouseMove;
             _mouseDelta.performed += OnMouseMove;
+            _mouseDelta.canceled += OnMouseMove;
         }
 
         private void OnMouseMove(InputAction.CallbackContext context)
         {
             var positionInput = context.ReadValue<Vector2>();
-            var sensitivityX = .2f;
-            var sensitivityY = .3f;
+            var sensitivityX = 0.05f;
+            var sensitivityY = 0.1f;
             
             _context.PlayerModel.MousePositionX += positionInput.x * sensitivityX;
-            _context.PlayerModel.MousePositionY -= positionInput.y * sensitivityY;
-            
+            _context.PlayerModel.MousePositionY += positionInput.y * sensitivityY;
         }
 
         private void OnPlayerShift(InputAction.CallbackContext context)
@@ -86,7 +91,6 @@ namespace InputManager
         {
             if (context.ReadValueAsButton())
             {
-                _context.GlobalContainer.PlayerComponent.Animator.SetTrigger("IsJump");
                 _model.IsJump = true;
             }
             else

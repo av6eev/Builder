@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.InputSystem;
+﻿using UnityEngine;
 using Utilities;
 
-namespace CameraManager
+namespace CameraManager.Systems
 {
     public class CameraMovementSystem : ISystem
     {
@@ -20,6 +18,7 @@ namespace CameraManager
             var cameraComponent = _context.GlobalContainer.CameraComponent;
             var camForward = cameraComponent.Camera.forward;
             var camRight = cameraComponent.Camera.right;
+            var angle = 90f;
             
             if (_context.GlobalContainer.CameraComponent.LockCursor)
             {
@@ -34,9 +33,9 @@ namespace CameraManager
             cameraComponent.Forward = camForward;
             cameraComponent.Right = camRight;
             
-            playerModel.MousePositionY = Mathf.Clamp(playerModel.MousePositionY, -60f, 60f);
-            
-            _context.GlobalContainer.CameraComponent.Camera.localEulerAngles = new Vector3(playerModel.MousePositionY, 0, 0);
+            playerModel.MousePositionY = Mathf.Clamp(playerModel.MousePositionY, -angle, angle);
+
+            _context.GlobalContainer.CameraComponent.Camera.localEulerAngles = new Vector3(-playerModel.MousePositionY, 0, 0);
         }
     }
 }

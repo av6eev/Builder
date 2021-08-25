@@ -1,8 +1,6 @@
-﻿using Player;
-using UnityEngine;
-using Utilities;
+﻿using Utilities;
 
-namespace CameraManager
+namespace CameraManager.Systems
 {
     public class CameraFollowSystem : ISystem
     {

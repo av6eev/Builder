@@ -5,22 +5,22 @@ using Player;
 
 namespace Utilities
 {
-    public class StepCollection : IStep
+    public class StepEngine : IStep
     {
         private readonly List<IStep> _steps = new List<IStep>();
 
-        public StepCollection()
+        public StepEngine()
         {
             Add(new InputStep());
             Add(new PlayerStep());
             Add(new CameraStep());
         }
 
-        public void Execute(GameContext context, ControllerCollection controllerCollection, GlobalContainer container)
+        public void Execute(GameContext context, ControllerEngine controllerEngine, GlobalContainer container)
         {
             foreach (var step in _steps)
             {
-                step.Execute(context, controllerCollection, container);
+                step.Execute(context, controllerEngine, container);
             }
         }
 
