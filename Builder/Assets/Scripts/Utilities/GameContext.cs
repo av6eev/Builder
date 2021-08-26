@@ -1,7 +1,7 @@
 ﻿using CameraManager;
+using Entities.Base;
 using InputManager;
 using Player;
-using UnityEngine.InputSystem;
 
 namespace Utilities
 {
@@ -13,6 +13,7 @@ namespace Utilities
         public BaseSystemEngine BaseSystemEngine { get; set; }
         public FixedSystemEngine FixedSystemEngine { get; set; }
         public ControllerEngine ControllerEngine { get; set; }
+        public EntityCollection EntityCollection { get; } = new EntityCollection();
 
         public PlayerModel PlayerModel { get; set; }
         public InputModel InputModel { get; set; }

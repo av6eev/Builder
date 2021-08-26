@@ -24,17 +24,17 @@ namespace InputManager
             foreach (var actionMap in _asset.actionMaps)
             {
                 actionMap.Enable();
+                
+                foreach (var action in actionMap.actions)
+                {
+                    AddAction(action.name, action);    
+                }
             }
-            
-            AddActions();
         }
 
-        private void AddActions()
+        private void AddAction(string name, InputAction action)
         {
-            _actions.Add(InputFields.Movement, _asset.FindAction(InputFields.Movement));
-            _actions.Add(InputFields.Jump, _asset.FindAction(InputFields.Jump));
-            _actions.Add(InputFields.Shift, _asset.FindAction(InputFields.Shift));
-            _actions.Add(InputFields.MouseDelta, _asset.FindAction(InputFields.MouseDelta));
+            _actions.Add(name, action);
         }
 
         private InputAction Get(string field)
@@ -100,7 +100,7 @@ namespace InputManager
 
         private void OnPlayerShift(InputAction.CallbackContext context)
         {
-            if (context.ReadValueAsButton())
+            if (Get(InputFields.Shift).triggered)
             {
                 _context.GlobalContainer.PlayerComponent.Animator.SetBool(IsShiftEnable, true);
                 _model.IsRun = true;
@@ -114,14 +114,7 @@ namespace InputManager
 
         private void OnPlayerJump(InputAction.CallbackContext context)
         {
-            if (context.ReadValueAsButton())
-            {
-                _model.IsJump = true;
-            }
-            else
-            {
-                _model.IsJump = false;
-            }
+            _model.IsJump = Get(InputFields.Jump).triggered;
         }
 
         private void OnPlayerMovement(InputAction.CallbackContext context)
@@ -129,14 +122,7 @@ namespace InputManager
             var positionInput = context.ReadValue<Vector2>();
             var position = new Vector3(positionInput.x, 0, positionInput.y);
 
-            if (positionInput.y < 0)
-            {
-                _context.GlobalContainer.PlayerComponent.Animator.SetBool(IsRunBackwards, true);
-            }
-            else
-            {
-                _context.GlobalContainer.PlayerComponent.Animator.SetBool(IsRunBackwards, false);
-            }
+            _context.GlobalContainer.PlayerComponent.Animator.SetBool(IsRunBackwards, positionInput.y < 0);
 
             _model.IsMove = positionInput.x != 0 || positionInput.y != 0;
             _context.PlayerModel.UpdatePosition(position);

@@ -7,10 +7,10 @@
             "actions": [
                 {
                     "name": "Movement",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "0e1ba4a0-e7d5-4603-8be8-2ce683f0008d",
                     "expectedControlType": "Vector2",
-                    "processors": "NormalizeVector2",
+                    "processors": "",
                     "interactions": ""
                 },
                 {

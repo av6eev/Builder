@@ -20,12 +20,16 @@ namespace Player
         {
             _model.OnChangePosition -= ChangePosition;
             _model.OnLookAt -= LookAt;
+            
+            _context.EntityCollection.Remove(_model);
         }
 
         public void Activate()
         {
             _model.OnChangePosition += ChangePosition;
             _model.OnLookAt += LookAt;
+
+            _context.EntityCollection.Add(_model);
         }
 
         private void ChangePosition(Vector3 currentPosition)

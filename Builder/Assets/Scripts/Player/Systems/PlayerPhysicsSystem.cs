@@ -46,8 +46,7 @@ namespace Player.Systems
                 {
                     _playerData.CurrentVelocity -= Mathf.Max(0, _playerData.Speed * 8 * deltaTime);
                 }
-
-                if (_playerData.CurrentVelocity < 0)
+                else
                 {
                     _playerData.CurrentVelocity = 0;
                 }
