@@ -7,6 +7,8 @@ namespace Player.Systems
     {
         private readonly GameContext _context;
         private readonly PlayerData _playerData;
+        
+        private static readonly int Speed = Animator.StringToHash("Speed");
 
         public PlayerMovementSystem(GameContext context)
         {
@@ -19,7 +21,7 @@ namespace Player.Systems
             var playerModel = _context.PlayerModel;
             var playerComponent = _context.GlobalContainer.PlayerComponent;
 
-            playerComponent.Animator.SetFloat("Speed", _playerData.CurrentVelocity);
+            playerComponent.Animator.SetFloat(Speed, _playerData.CurrentVelocity);
             playerComponent.transform.localEulerAngles = new Vector3(0, playerModel.MousePositionX, 0);
 
             var moveDirection = _context.GlobalContainer.CameraComponent.Forward * playerModel.Position.z + _context.GlobalContainer.CameraComponent.Right * playerModel.Position.x;

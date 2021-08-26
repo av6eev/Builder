@@ -1,5 +1,3 @@
-using System;
-using CameraManager;
 using CameraManager.Systems;
 using Player;
 using Player.Systems;

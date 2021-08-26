@@ -7,6 +7,7 @@ namespace Player.Systems
     {
         private readonly GameContext _context;
         private readonly PlayerData _playerData;
+        private static readonly int IsJump = Animator.StringToHash("IsJump");
 
         public PlayerPhysicsSystem(GameContext context)
         {
@@ -16,6 +17,8 @@ namespace Player.Systems
         
         public void Update(float deltaTime)
         {
+            _context.PlayerModel.IsGrounded = Physics.Raycast(_context.GlobalContainer.PlayerComponent.transform.position, Vector3.down, 1 + 0.1f);
+            
             Jump(_context.GlobalContainer.PlayerComponent);
             DragControl(_context.GlobalContainer.PlayerComponent, _playerData.AirDrag, _playerData.GroundDrag);
             
@@ -43,35 +46,30 @@ namespace Player.Systems
                 {
                     _playerData.CurrentVelocity -= Mathf.Max(0, _playerData.Speed * 8 * deltaTime);
                 }
+
+                if (_playerData.CurrentVelocity < 0)
+                {
+                    _playerData.CurrentVelocity = 0;
+                }
             }
         }
 
         private void Jump(PlayerComponent playerComponent)
         {
-            var isGrounded = _context.PlayerModel.IsGrounded;
-            isGrounded = Physics.Raycast(playerComponent.transform.position, Vector3.down, 1 + 0.1f);
-            
-            if (isGrounded && _context.InputModel.IsJump)
+            if (_context.PlayerModel.IsGrounded && _context.InputModel.IsJump)
             {
                 playerComponent.Rigidbody.AddForce(playerComponent.transform.up * _playerData.JumpForce, ForceMode.Impulse);
-                _context.GlobalContainer.PlayerComponent.Animator.SetBool("IsJump", true);
+                _context.GlobalContainer.PlayerComponent.Animator.SetBool(IsJump, true);
             }
             else
             {
-                _context.GlobalContainer.PlayerComponent.Animator.SetBool("IsJump", false);
+                _context.GlobalContainer.PlayerComponent.Animator.SetBool(IsJump, false);
             }
         }
 
         private void DragControl(PlayerComponent playerComponent, float airDrag, float groundDrag)
         {
-            if (_context.PlayerModel.IsGrounded)
-            {
-                playerComponent.Rigidbody.drag = groundDrag;
-            }
-            else
-            {
-                playerComponent.Rigidbody.drag = airDrag;
-            }
+            playerComponent.Rigidbody.drag = _context.PlayerModel.IsGrounded ? groundDrag : airDrag;
         }
     }
 }

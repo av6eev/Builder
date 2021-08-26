@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using Utilities;
 
@@ -9,11 +10,10 @@ namespace InputManager
         private readonly GameContext _context;
         private readonly InputModel _model;
         private readonly InputActionAsset _asset;
-
-        private readonly InputAction _movement;
-        private readonly InputAction _jump;
-        private readonly InputAction _shift;
-        private readonly InputAction _mouseDelta;
+        private readonly Dictionary<string, InputAction> _actions = new Dictionary<string, InputAction>();
+        
+        private static readonly int IsShiftEnable = Animator.StringToHash("IsShiftEnable");
+        private static readonly int IsRunBackwards = Animator.StringToHash("IsRunBackwards");
 
         public InputController(GameContext context, InputModel model, InputActionAsset asset)
         {
@@ -21,53 +21,78 @@ namespace InputManager
             _model = model;
             _asset = asset;
 
-            _movement = _asset.FindAction(InputFields.Movement);
-            _jump = _asset.FindAction(InputFields.Jump);
-            _shift = _asset.FindAction(InputFields.Shift);
-            _mouseDelta = _asset.FindAction(InputFields.MouseDelta);
-
-            _asset.Enable();
+            foreach (var actionMap in _asset.actionMaps)
+            {
+                actionMap.Enable();
+            }
+            
+            AddActions();
         }
 
+        private void AddActions()
+        {
+            _actions.Add(InputFields.Movement, _asset.FindAction(InputFields.Movement));
+            _actions.Add(InputFields.Jump, _asset.FindAction(InputFields.Jump));
+            _actions.Add(InputFields.Shift, _asset.FindAction(InputFields.Shift));
+            _actions.Add(InputFields.MouseDelta, _asset.FindAction(InputFields.MouseDelta));
+        }
+
+        private InputAction Get(string field)
+        {
+            return _actions[field];
+        }
+        
         public void Deactivate()
         {
-            _movement.started -= OnPlayerMovement;
-            _movement.performed -= OnPlayerMovement;
-            _movement.canceled -= OnPlayerMovement;
+            var movement = Get(InputFields.Movement);
+            movement.started -= OnPlayerMovement;
+            movement.performed -= OnPlayerMovement;
+            movement.canceled -= OnPlayerMovement;
 
-            _jump.started -= OnPlayerJump;
-            _jump.canceled -= OnPlayerJump;
-            
-            _shift.started -= OnPlayerShift;
-            _shift.canceled -= OnPlayerShift;
+            var jump = Get(InputFields.Jump);
+            jump.started -= OnPlayerJump;
+            jump.performed -= OnPlayerJump;
+            jump.canceled -= OnPlayerJump;
 
-            _mouseDelta.started -= OnMouseMove;
-            _mouseDelta.performed -= OnMouseMove;
-            _mouseDelta.canceled -= OnMouseMove;
+            var shift = Get(InputFields.Shift);
+            shift.started -= OnPlayerShift;
+            shift.performed -= OnPlayerShift;
+            shift.canceled -= OnPlayerShift;
+
+            var mouseDelta = Get(InputFields.MouseDelta);
+            mouseDelta.started -= OnMouseMove;
+            mouseDelta.performed -= OnMouseMove;
+            mouseDelta.canceled -= OnMouseMove;
         }
 
         public void Activate()
         {
-            _movement.started += OnPlayerMovement;
-            _movement.performed += OnPlayerMovement;
-            _movement.canceled += OnPlayerMovement;
+            var movement = Get(InputFields.Movement);
+            movement.started += OnPlayerMovement;
+            movement.performed += OnPlayerMovement;
+            movement.canceled += OnPlayerMovement;
 
-            _jump.started += OnPlayerJump;
-            _jump.canceled += OnPlayerJump;
+            var jump = Get(InputFields.Jump);
+            jump.started += OnPlayerJump;
+            jump.performed += OnPlayerJump;
+            jump.canceled += OnPlayerJump;
 
-            _shift.started += OnPlayerShift;
-            _shift.canceled += OnPlayerShift;
+            var shift = Get(InputFields.Shift);
+            shift.started += OnPlayerShift;
+            shift.performed += OnPlayerShift;
+            shift.canceled += OnPlayerShift;
 
-            _mouseDelta.started += OnMouseMove;
-            _mouseDelta.performed += OnMouseMove;
-            _mouseDelta.canceled += OnMouseMove;
+            var mouseDelta = Get(InputFields.MouseDelta);
+            mouseDelta.started += OnMouseMove;
+            mouseDelta.performed += OnMouseMove;
+            mouseDelta.canceled += OnMouseMove;
         }
 
         private void OnMouseMove(InputAction.CallbackContext context)
         {
             var positionInput = context.ReadValue<Vector2>();
-            var sensitivityX = 0.05f;
-            var sensitivityY = 0.1f;
+            const float sensitivityX = 0.05f;
+            const float sensitivityY = 0.1f;
             
             _context.PlayerModel.MousePositionX += positionInput.x * sensitivityX;
             _context.PlayerModel.MousePositionY += positionInput.y * sensitivityY;
@@ -77,12 +102,12 @@ namespace InputManager
         {
             if (context.ReadValueAsButton())
             {
-                _context.GlobalContainer.PlayerComponent.Animator.SetBool("IsShiftEnable", true);
+                _context.GlobalContainer.PlayerComponent.Animator.SetBool(IsShiftEnable, true);
                 _model.IsRun = true;
             }
             else
             {
-                _context.GlobalContainer.PlayerComponent.Animator.SetBool("IsShiftEnable", false);
+                _context.GlobalContainer.PlayerComponent.Animator.SetBool(IsShiftEnable, false);
                 _model.IsRun = false;
             }
         }
@@ -106,11 +131,11 @@ namespace InputManager
 
             if (positionInput.y < 0)
             {
-                _context.GlobalContainer.PlayerComponent.Animator.SetBool("IsRunBackwards", true);
+                _context.GlobalContainer.PlayerComponent.Animator.SetBool(IsRunBackwards, true);
             }
             else
             {
-                _context.GlobalContainer.PlayerComponent.Animator.SetBool("IsRunBackwards", false);
+                _context.GlobalContainer.PlayerComponent.Animator.SetBool(IsRunBackwards, false);
             }
 
             _model.IsMove = positionInput.x != 0 || positionInput.y != 0;

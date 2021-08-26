@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6add418ac4f84477a22b938b46109eea, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  Speed: 5
-  CurrentVelocity: -0.020027399
+  Speed: 2
+  CurrentVelocity: 0
   MaxWalkVelocity: 4
-  MaxRunVelocity: 8
-  MovementMultiplier: 8
-  AirMultiplier: 0.2
-  JumpForce: 1.2
-  GroundDrag: 6
+  MaxRunVelocity: 6
+  MovementMultiplier: 2
+  AirMultiplier: 0.5
+  JumpForce: 1.3
+  GroundDrag: 5
   AirDrag: 2.4

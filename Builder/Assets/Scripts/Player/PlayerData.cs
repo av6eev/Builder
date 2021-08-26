@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Player
 {
@@ -8,15 +7,15 @@ namespace Player
     {
         [Header("Velocity")]
         public float Speed = 5f;
-        public float CurrentVelocity = 0f;
+        public float CurrentVelocity;
         public float MaxWalkVelocity = 4f;
-        public float MaxRunVelocity = 8f;
-        public float MovementMultiplier = 7f;
-        public float AirMultiplier = 0.2f;
+        public float MaxRunVelocity = 6f;
+        public float MovementMultiplier = 2f;
+        public float AirMultiplier = 0.5f;
         
         [Header("Jump")]
-        public float JumpForce = 1.2f;
-        public float GroundDrag = 6f;
+        public float JumpForce = 1.3f;
+        public float GroundDrag = 5f;
         public float AirDrag = 2.4f;
     }
 }
